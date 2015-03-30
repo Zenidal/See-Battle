@@ -1,4 +1,4 @@
-var seeBattleApp = angular.module('seeBattleApp', ['ngRoute']);
+var seeBattleApp = angular.module('seeBattleApp', ['ngRoute', 'app.RegistrCtrl']);
 
 seeBattleApp.config(['$routeProvider', '$provide', function ($routeProvider) {
         $routeProvider
@@ -26,6 +26,11 @@ seeBattleApp.config(['$routeProvider', '$provide', function ($routeProvider) {
                             //controller: 'StatisticsCtrl'
                         }
                 )
+                .when('/Registration',
+                        {
+                            templateUrl: 'views/registrationView.html',
+                            controller: 'RegistrationCtrl'
+                        })
                 .otherwise(
                         {
                             redirectTo: '/'
