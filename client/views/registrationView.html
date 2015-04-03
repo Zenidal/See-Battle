@@ -1,5 +1,6 @@
-<div class="container registration">
-    <form role="form" ng-submit="submit()" novalidate class="css-form">
+<div class="container">
+    <div ng-show="!registrationResult" class="registration">
+        <form role="form" ng-submit="submit()" class="css-form">
         <div class="form-group">
             <label for="inputUserName">Login</label>
             <input type="text" class="form-control" ng-model="user_name" id="inputUserName" placeholder="Enter login" ng-required="true">
@@ -14,4 +15,8 @@
         </div>
         <input class="btn btn-default" type="submit" value="Submit"/>
     </form>
+    </div>    
+    <div ng-show="registrationResult" class="registration-result">
+        {{data}}
+    </div>
 </div>
