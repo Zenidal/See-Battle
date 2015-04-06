@@ -31,6 +31,11 @@ seeBattleApp.config(['$routeProvider', '$provide', function ($routeProvider) {
                             templateUrl: 'views/registrationView.html',
                             controller: 'RegistrationCtrl'
                         })
+                .when('/Authorization',
+                        {
+                            templateUrl: 'views/authorizationView.html',
+                            controller: 'AuthorizationCtrl'
+                        })
                 .otherwise(
                         {
                             redirectTo: '/'

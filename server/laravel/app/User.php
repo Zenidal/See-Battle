@@ -18,5 +18,4 @@ class User extends Model {
         $user->save();
         return true;
     }
-
 }
