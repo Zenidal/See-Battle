@@ -1,20 +1,34 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use Illuminate\Database\Eloquent\Model;
+use App\Role;
 
 class DatabaseSeeder extends Seeder {
 
-	/**
-	 * Run the database seeds.
-	 *
-	 * @return void
-	 */
-	public function run()
-	{
-		Model::unguard();
+    /**
+     * Run the database seeds.
+     *
+     * @return void
+     */
+    public function run() {
+        $this->call('RoleTableSeeder');
+        $this->command->info('Seeding was succesfull!');
+    }
 
-		// $this->call('UserTableSeeder');
-	}
+}
+
+class RoleTableSeeder extends Seeder {
+
+    /**
+     * Run the database seeds.
+     *
+     * @return void
+     */
+    public function run() {
+        DB::table('roles')->delete();
+        $role = new Role;
+        $role->name = 'user';
+        $role->save();
+    }
 
 }

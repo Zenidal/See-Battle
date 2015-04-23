@@ -1,0 +1,28 @@
+<div class="container">
+    <div class="authorization">
+        <form role="form" ng-submit="submit()" class="css-form">
+            <div class="form-group">
+                <label for="inputUserName">Login</label>
+                <input type="text" class="form-control" ng-model="user_name" id="inputUserName" placeholder="Enter login" ng-required="true">
+            </div>
+            <div class="form-group">
+                <label for="inputPassword">Password</label>
+                <input type="password" class="form-control" ng-model="user_password" id="inputPassword" placeholder="Enter password" ng-required="true">
+            </div>
+            <input class="btn btn-default" type="submit" value="Submit"/>
+        </form>
+    </div>
+    <div class="modal fade authorization-modal" tabindex="-1" role="dialog" aria-labelledby="authorizationResultModal" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h2 class="modal-title">Authorization result</h2>
+                </div>
+                <div class="modal-body">
+                    {{data}}                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,4 +1,4 @@
-var seeBattleApp = angular.module('seeBattleApp', ['ngRoute', 'app.RegistrCtrl']);
+var seeBattleApp = angular.module('seeBattleApp', ['ngRoute', 'app.AuthorizCtrl', 'app.RegistrCtrl', 'app.LogoutCtrl', 'app.HomeCtrl']);
 
 seeBattleApp.config(['$routeProvider', '$provide', function ($routeProvider) {
         $routeProvider
@@ -13,7 +13,7 @@ seeBattleApp.config(['$routeProvider', '$provide', function ($routeProvider) {
                 .when('/Home',
                         {
                             templateUrl: 'views/homeView.html',
-                            //controller: 'HomeCtrl'
+                            controller: 'HomeCtrl'
                         })
                 .when('/Profile',
                         {
@@ -35,6 +35,11 @@ seeBattleApp.config(['$routeProvider', '$provide', function ($routeProvider) {
                         {
                             templateUrl: 'views/authorizationView.html',
                             controller: 'AuthorizationCtrl'
+                        })
+                .when('/Logout',
+                        {
+                            templateUrl: 'views/homeView.html',
+                            controller: 'LogoutCtrl'
                         })
                 .otherwise(
                         {

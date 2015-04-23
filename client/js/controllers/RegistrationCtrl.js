@@ -1,16 +1,14 @@
-var ctrl = angular.module('app.RegistrCtrl', [])
-
-        .controller('RegistrationCtrl', ['$scope', '$http', '$location', function ($scope, $http, $location) {
-                $scope.registrationResult = false;
+var regCtrl = angular.module('app.RegistrCtrl', [])
+        .controller('RegistrationCtrl', ['$scope', '$http', '$location', function ($scope, $http) {
                 $scope.submit = function () {
                     errorMessage = '';
-                    if ($scope.user_name.length < 6 || $scope.user_name.length > 30)
+                    if ($scope.user_name.length < 6 || $scope.user_name.length > 50)
                     {
-                        errorMessage += '\nLogin length should be in the range from 6 to 30 symbols.';
+                        errorMessage += '\nLogin length should be in the range from 6 to 50 symbols.';
                     }
-                    if ($scope.user_password1.length < 6 || $scope.user_password1.length > 30)
+                    if ($scope.user_password1.length < 6 || $scope.user_password1.length > 50)
                     {
-                        errorMessage += '\nPassword length should be in the range from 6 to 30 symbols.';
+                        errorMessage += '\nPassword length should be in the range from 6 to 50 symbols.';
                     }
                     if ($scope.user_password1 !== $scope.user_password2)
                     {
@@ -18,20 +16,21 @@ var ctrl = angular.module('app.RegistrCtrl', [])
                     }
                     if (errorMessage !== '')
                     {
-                        alert(errorMessage);
+                        $scope.errorMessage = errorMessage;
+                        $('.errorModal').modal('show');
                     }
                     else
                     {
-                        $http({method: 'GET', url: 'http://seebattle/See-Battle/server/laravel/public/registration', params: {'user_name': $scope.user_name, 'user_password': $scope.user_password1}})
+                        $http({method: 'GET', url: 'http://seebattle/See-Battle/server/laravel/public/registration', params: {'username': $scope.user_name, 'password': $scope.user_password1}})
                                 .success(function (data)
                                 {
-                                    $scope.registrationResult = true;
                                     $scope.data = data;
+                                    $('.registration-modal').modal('show');
                                 })
                                 .error(function (data)
                                 {
-                                    $scope.registrationResult = true;
                                     $scope.data = data;
+                                    $('.registration-modal').modal('show');
                                 });
                     }
                 };

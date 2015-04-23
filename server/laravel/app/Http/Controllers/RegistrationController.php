@@ -3,37 +3,41 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
+use Illuminate\Contracts\Auth\Registrar as RegistrarContract;
+use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
+use Validator;
 
-class RegistrationController extends Controller {
+class RegistrationController extends Controller implements RegistrarContract {
 
-    private $errorMessage = "";
+    use AuthenticatesAndRegistersUsers;
 
-    public function register() {
-        $args = array(
-            'user_name' => array(
-                'filter' => FILTER_SANITIZE_STRING
-            ),
-            'user_password' => array(
-                'filter' => FILTER_SANITIZE_STRING
-            )
-        );
-        $my_inputs = filter_input_array(INPUT_GET, $args);
-        if (!is_null($my_inputs['user_name']) && !is_null($my_inputs['user_password'])) {
-            if (strlen($my_inputs['user_name']) < 6 || strlen($my_inputs['user_name']) > 50) {
-                $errorMessage = "Login length should be in the range from 6 to 50 symbols";
-            }
-            if (strlen($my_inputs['user_password']) < 6 || strlen($my_inputs['user_password']) > 50) {
-                $errorMessage = "Password length should be in the range from 6 to 50 symbols";
-            }
-            if (empty($errorMessage)) {
-                if (User::register($my_inputs)) {
-                    return response('User added succesfully', 200)->header('Content-Type', 'text');
-                } else {
-                    return response('This user already exists.', 409)->header('Content-Type', 'text');
-                }
-            } else {                
-                return response($errorMessage, 400)->header('Content-Type', 'text');
-            }
+    /**
+     * @param  Request  $request
+     * @return Response
+     */
+    public function register(Request $request) {
+        $data = $request->all();
+        $validation_result = $this->validator($data);
+        if ($validation_result->fails()) {
+            $error_message = implode($validation_result->messages()->all());
+            return response($error_message, 400);
+        } else {
+            $this->create($data);
+            return response('User added succesfully', 200);
         }
     }
+
+    public function create(array $data) {
+        User::create_user($data['username'], $data['password']);
+    }
+
+    public function validator(array $data) {
+        return Validator::make($data, [
+                    'username' => 'required|min:6|max:50|unique:users,username',
+                    'password' => 'required|min:6|max:50'
+        ]);
+    }
+
 }

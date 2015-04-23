@@ -9,14 +9,15 @@
             </button>
             <a class="navbar-brand" href="#/">SeeBattle</a>
         </div>
-        <div class="collapse navbar-collapse" id="responsive-menu" style="height: 1px;">
+        <div class="collapse navbar-collapse" id="responsive-menu">
             <ul class="nav navbar-nav">
                 <li><a href="#/Profile">Profile</a></li>
                 <li><a href="#/Statistics">Statistics</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#/Registration">Registration</a></li>
-                <li><a href="#/Authorization">Authorization</a></li>
+                <li ng-show="authorized"><a href="#Logout">Log out</a></li>
+                <li ng-hide="authorized"><a href="#/Registration">Registration</a></li>
+                <li ng-hide="authorized"><a href="#/Authorization">Authorization</a></li>
             </ul>
         </div>
     </div>

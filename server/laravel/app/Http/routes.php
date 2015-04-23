@@ -1,4 +1,4 @@
 <?php
-
-Route::get('/', 'RegistrationController@register_get');
-Route::get('registration', 'RegistrationController@register_get');
+Route::get('registration', 'RegistrationController@register');
+Route::get('authorization', 'AuthorizationController@authorization');
+Route::get('logout', 'AuthorizationController@logout');
