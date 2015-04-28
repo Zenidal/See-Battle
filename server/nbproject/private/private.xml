@@ -3,26 +3,16 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/W:/domains/seebattle/See-Battle/server/laravel/app/Http/Controllers/HomeController.php</file>
-            <file>file:/W:/domains/seebattle/See-Battle/server/laravel/app/Game.php</file>
-            <file>file:/W:/domains/seebattle/See-Battle/server/laravel/app/Http/Controllers/Controller.php</file>
-            <file>file:/W:/domains/seebattle/See-Battle/server/laravel/app/Http/Controllers/WelcomeController.php</file>
-            <file>file:/W:/domains/seebattle/See-Battle/server/laravel/database/seeds/DatabaseSeeder.php</file>
-            <file>file:/W:/domains/seebattle/See-Battle/server/laravel/database/migrations/2015_04_04_202332_create_users_table.php</file>
-            <file>file:/W:/domains/seebattle/See-Battle/server/laravel/database/migrations/2015_04_01_201635_create_roles_create.php</file>
-            <file>file:/W:/domains/seebattle/See-Battle/server/laravel/database/migrations/2015_04_02_194921_create_games_table.php</file>
-            <file>file:/W:/domains/seebattle/See-Battle/server/laravel/app/Role.php</file>
-            <file>file:/W:/domains/seebattle/See-Battle/server/laravel/app/Http/Controllers/AuthorizationController.php</file>
-            <file>file:/W:/domains/seebattle/See-Battle/server/laravel/app/Http/Controllers/GameController.php</file>
-            <file>file:/W:/domains/seebattle/See-Battle/server/laravel/config/app.php</file>
-            <file>file:/W:/domains/seebattle/See-Battle/server/laravel/app/Readygame.php</file>
-            <file>file:/W:/domains/seebattle/See-Battle/server/laravel/app/User.php</file>
-            <file>file:/W:/domains/seebattle/See-Battle/server/laravel/app/Http/routes.php</file>
-            <file>file:/W:/domains/seebattle/See-Battle/server/laravel/database/migrations/2015_04_05_100038_create_statistiks_table.php</file>
-            <file>file:/W:/domains/seebattle/See-Battle/server/laravel/database/migrations/2015_04_03_225746_create_readygames_table.php</file>
-            <file>file:/W:/domains/seebattle/See-Battle/server/laravel/app/Statistics.php</file>
-            <file>file:/W:/domains/seebattle/See-Battle/server/laravel/app/Http/Controllers/RegistrationController.php</file>
-            <file>file:/W:/domains/seebattle/See-Battle/server/laravel/config/mail.php</file>
+            <file>file:/C:/Program%20Files/OpenServer/domains/seebattle/See-Battle/server/laravel/app/Game.php</file>
+            <file>file:/C:/Program%20Files/OpenServer/domains/seebattle/See-Battle/server/laravel/app/Http/Controllers/HomeController.php</file>
+            <file>file:/C:/Program%20Files/OpenServer/domains/seebattle/See-Battle/server/laravel/app/Http/Controllers/GameController.php</file>
+            <file>file:/C:/Program%20Files/OpenServer/domains/seebattle/See-Battle/server/laravel/app/Http/Controllers/Controller.php</file>
+            <file>file:/C:/Program%20Files/OpenServer/domains/seebattle/See-Battle/server/laravel/app/Http/Controllers/StatisticsController.php</file>
+            <file>file:/C:/Program%20Files/OpenServer/domains/seebattle/See-Battle/server/laravel/app/Readygame.php</file>
+            <file>file:/C:/Program%20Files/OpenServer/domains/seebattle/See-Battle/server/laravel/database/migrations/2015_04_05_100038_create_statistiks_table.php</file>
+            <file>file:/C:/Program%20Files/OpenServer/domains/seebattle/See-Battle/server/laravel/app/Http/routes.php</file>
+            <file>file:/C:/Program%20Files/OpenServer/domains/seebattle/See-Battle/server/laravel/app/User.php</file>
+            <file>file:/C:/Program%20Files/OpenServer/domains/seebattle/See-Battle/server/laravel/app/Statistics.php</file>
         </group>
     </open-files>
 </project-private>

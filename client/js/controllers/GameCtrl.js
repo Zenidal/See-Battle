@@ -13,7 +13,9 @@ var gameCtrl = angular.module('app.GameCtrl', ['ngCookies'])
             function ($scope, $http, $cookieStore, $rootScope, $location) {
                 $scope.gameTimer = gameTimer;
                 $scope.initField = initField;
-                $scope.ready = function () {
+                $scope.confirmField = confirmField;
+                $scope.ready = ready;
+                function ready() {
                     $http({
                         method: 'GET',
                         url: 'http://seebattle/See-Battle/server/laravel/public/confirmfield',
@@ -22,67 +24,41 @@ var gameCtrl = angular.module('app.GameCtrl', ['ngCookies'])
                         }
                     })
                             .success(function () {
-                                $http.get('http://seebattle/See-Battle/server/laravel/public/gameisready')
-                                        .success(function () {
-                                            $scope.gameIsReady = true;
-                                            $scope.whoseTurn = data.whose_turn;
-                                            $scope.field = data.field;
-                                            fillField();
-                                        })
-                                        .error(function () {
-                                            $scope.gameIsReady = false;
-                                        });
+                                $('.fieldConfirmation-modal').modal('show');
                             })
                             .error(function () {
                             });
-                };
-
-                function fillField() {
-                    for (i = 0; i < $scope.field.length; i++) {
-                        p = ($scope.field[i].accessory === 'player1') ? 1 : 2;
-                        if ($scope.field[i].value === '0') {
-                            document.getElementById('cell' + p + 'p_' + $scope.field[i].row + '_' + $scope.field[i].column).style.backgroundColor = cellColor;
-                        }
-                        if ($scope.field[i].value === '-1') {
-                            document.getElementById('cell' + p + 'p_' + $scope.field[i].row + '_' + $scope.field[i].column).style.backgroundColor = hitColor;
-                        }
-                        if ($scope.field[i].value === '-2') {
-                            document.getElementById('cell' + p + 'p_' + $scope.field[i].row + '_' + $scope.field[i].column).style.backgroundColor = missedColor;
-                        }
-                        if ($scope.field[i].value === '1') {
-                            if ($scope.game.user2_name === $cookieStore.get('username')) {
-                                document.getElementById('cell' + p + 'p_' + $scope.field[i].row + '_' + $scope.field[i].column).style.backgroundColor = missedColor;
-                            }
-                            else {
-                                document.getElementById('cell' + p + 'p_' + $scope.field[i].row + '_' + $scope.field[i].column).style.backgroundColor = cellColor;
-                            }
-                        }
-                    }
                 }
-
                 function gameTimer() {
                     setTimeout(function run() {
-                        $http.get('http://seebattle/See-Battle/server/laravel/public/gameisstarted')
+                        $http.get('http://seebattle/See-Battle/server/laravel/public/getstatusgame')
                                 .success(function (data) {
-                                    $scope.game = data;
-                                    $scope.gameWasStarted = true;
+                                    $scope.gameStatus = data.status;
+                                    $scope.game = data.game;
+                                    if (data.status === 'Ready') {
+                                        $scope.whoseTurn = data.whoseTurn;
+                                    }
+                                    setTimeout(run, 3000);
                                 })
                                 .error(function () {
-                                    setTimeout(run, 1000);
                                 });
-                    }, 1000);
+                    }, 3000);
+                }
+                function confirmField() {
+                    $http({
+                        method: 'GET',
+                        url: 'http://seebattle/See-Battle/server/laravel/public/confirmfield'
+                    })
+                            .success(function (data) {
+                                $scope.confirmationResult = data;
+                                $('.fieldConfirmation-modal').modal('show');
+                            })
+                            .error(function (data) {
+                                $scope.confirmationResult = data;
+                                $('.fieldConfirmation-modal').modal('show');
+                            });
                 }
                 function initField() {
-                    $http.get('http://seebattle/See-Battle/server/laravel/public/gameisready')
-                            .success(function (data) {
-                                $scope.gameIsReady = true;
-                                $scope.whoseTurn = data.whose_turn;
-                                $scope.field = data.field;
-                                fillField();
-                            })
-                            .error(function () {
-                                $scope.gameIsReady = false;
-                            });
                     initialize1PField();
                     initialize2PField();
                 }
@@ -166,7 +142,7 @@ var gameCtrl = angular.module('app.GameCtrl', ['ngCookies'])
                     opponentField.appendChild(table);
                 }
                 function click1P() {
-                    if ($scope.gameIsReady) {
+                    if ($scope.gameStatus === 'Ready') {
                         if ($scope.game.user2_name === $cookieStore.get('username')) {
                             i = this.id.split('_')[1];
                             j = this.id.split('_')[2];
@@ -192,8 +168,7 @@ var gameCtrl = angular.module('app.GameCtrl', ['ngCookies'])
                                     });
                         }
                     }
-                    else {
-
+                    if ($scope.gameStatus === 'Started') {
                         if ($scope.game.user1_name === $cookieStore.get('username')) {
                             i = this.id.split('_')[1];
                             j = this.id.split('_')[2];
@@ -216,19 +191,9 @@ var gameCtrl = angular.module('app.GameCtrl', ['ngCookies'])
                                     });
                         }
                     }
-                    $http.get('http://seebattle/See-Battle/server/laravel/public/gameisready')
-                            .success(function (data) {
-                                $scope.gameIsReady = true;
-                                $scope.whoseTurn = data.whose_turn;
-                                $scope.field = data.field;
-                                fillField();
-                            })
-                            .error(function () {
-                                $scope.gameIsReady = false;
-                            });
                 }
                 function click2P() {
-                    if ($scope.gameIsReady) {
+                    if ($scope.gameStatus === 'Ready') {
                         if ($scope.game.user1_name === $cookieStore.get('username')) {
                             i = this.id.split('_')[1];
                             j = this.id.split('_')[2];
@@ -240,7 +205,6 @@ var gameCtrl = angular.module('app.GameCtrl', ['ngCookies'])
                                 }
                             })
                                     .success(function (data) {
-                                        alert(data);
                                         if (data === 'Hit') {
                                             document.getElementById('cell2p_' + i + '_' + j).style.backgroundColor = hitColor;
                                         }
@@ -255,7 +219,7 @@ var gameCtrl = angular.module('app.GameCtrl', ['ngCookies'])
                                     });
                         }
                     }
-                    else {
+                    if ($scope.gameStatus === 'Started') {
                         if ($scope.game.user2_name === $cookieStore.get('username')) {
                             i = this.id.split('_')[1];
                             j = this.id.split('_')[2];
@@ -278,16 +242,6 @@ var gameCtrl = angular.module('app.GameCtrl', ['ngCookies'])
                                     });
                         }
                     }
-                    $http.get('http://seebattle/See-Battle/server/laravel/public/gameisready')
-                            .success(function (data) {
-                                $scope.gameIsReady = true;
-                                $scope.whoseTurn = data.whose_turn;
-                                $scope.field = data.field;
-                                fillField();
-                            })
-                            .error(function () {
-                                $scope.gameIsReady = false;
-                            });
                 }
-            }
-        ]);
+            }]);
+

@@ -14,7 +14,6 @@ class CreateStatistiksTable extends Migration {
             $table->increments('id');
             $table->integer('wins')->unsigned()->default('0');
             $table->integer('defeats')->unsigned()->default('0');
-            $table->float('persent')->unsigned()->default('0.0');
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();

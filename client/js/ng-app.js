@@ -1,5 +1,5 @@
 var seeBattleApp = angular.module('seeBattleApp',
-        ['ngRoute', 'app.AuthorizCtrl', 'app.RegistrCtrl', 'app.LogoutCtrl', 'app.HomeCtrl', 'app.GameCtrl', 'app.ProfileCtrl']);
+        ['ngRoute', 'app.AuthorizCtrl', 'app.RegistrCtrl', 'app.LogoutCtrl', 'app.HomeCtrl', 'app.GameCtrl', 'app.ProfileCtrl', 'app.StatisticsCtrl']);
 
 seeBattleApp.config(['$routeProvider', '$provide', function ($routeProvider) {
         $routeProvider
@@ -24,7 +24,7 @@ seeBattleApp.config(['$routeProvider', '$provide', function ($routeProvider) {
                 .when('/Statistics',
                         {
                             templateUrl: 'views/statisticsView.html',
-                            //controller: 'StatisticsCtrl'
+                            controller: 'StatisticsCtrl'
                         }
                 )
                 .when('/Registration',

@@ -12,7 +12,7 @@ body
     color: white;
 }
 .authorization-modal, .errorModal, .registration-modal, .createGame-modal, .acceptGame-modal,
-.readyGame-modal
+.readyGame-modal, .fieldConfirmation-modal, .winGame-modal
 {    
     color: black;
 }

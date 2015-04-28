@@ -11,69 +11,65 @@ use Illuminate\Http\Request;
 
 class GameController extends Controller {
 
+    /**
+     * @param  Request  $request
+     * @return Response
+     */
     public function create() {
         if (Auth::check()) {
             $game = Game::create_game(Auth::user());
             if ($game) {
                 return response('The game was created.', 200);
             } else {
-                return response('The game already exists.', 400);
+                return response('The game already exists.', 200);
             }
         } else {
             return response('You must login', 401);
         }
     }
 
-    /**
-     * @param  Request  $request
-     * @return Response
-     */
     public function accept(Request $request) {
         if (Auth::check()) {
             $game = Game::accept_game(Auth::user(), $request->input('game_id'));
             if ($game) {
                 return response('The game was accepted.', 200);
             } else {
-                return response('The game can not be accepted.', 400);
+                return response('The game can not be accepted.', 200);
             }
         } else {
             return response('You must login', 401);
         }
     }
 
-    public function game_is_started() {
+    public function get_status_game() {
         if (Auth::check()) {
-            $game = Game::my_game_is_started(Auth::user());
-            if (!$game) {
-                return response('No active play.', 400);
-            } else {
-                return response($game, 200);
+            $user = Auth::user();
+            if ($user->game_id != NULL) {
+                $game = Game::find($user->game_id);
+                if ($game->user1_id != NULL && $game->user2_id != NULL) {
+                    if ($game->user1_ready && $game->user2_ready) {
+                        $whose_turn = GameController::whose_turn($game->id);
+                        return response([
+                            'status' => 'Ready',
+                            'whoseTurn' => $whose_turn,
+                            'game' => $game
+                                ], 200);
+                    } else {
+                        return response(['status' => 'Started',
+                            'game' => $game,
+                                ], 200);
+                    }
+                } else {
+                    return response(['status' => 'Created',
+                        'game' => $game
+                            ], 200);
+                }
             }
         } else {
             return response('You must login', 401);
         }
     }
 
-    public function game_is_ready() {
-        if (Auth::check()) {
-            $game = Game::my_game_is_ready(Auth::user());
-            if (!$game) {
-                return response('Game is not ready.', 400);
-            } else {
-                $whose_turn = GameController::whose_turn($game->id);
-                $field = GameController::get_field($game->id);
-                return response(['whose_turn' => $whose_turn,
-                    'field' => $field], 200);
-            }
-        } else {
-            return response('You must login', 401);
-        }
-    }
-
-    /**
-     * @param  Request  $request
-     * @return Response
-     */
     public function confirm_cell(Request $request) {
         if (Auth::check()) {
             $result = Readygame::confirm($request->input('row'), $request->input('column'), $request->input('player'), $request->input('gameId'));
@@ -83,17 +79,13 @@ class GameController extends Controller {
         }
     }
 
-    /**
-     * @param  Request  $request
-     * @return Response
-     */
     public function confirm_field(Request $request) {
         if (Auth::check()) {
             $result = Game::confirm($request->input('username'));
             if ($result) {
-                return response(200);
+                return response('Field was confirmed', 200);
             } else {
-                return response(400);
+                return response('Field was not confirmed', 200);
             }
         } else {
             return response('You must login', 401);
@@ -105,15 +97,6 @@ class GameController extends Controller {
         return response($games, 200);
     }
 
-    public static function get_field($game_id) {
-        $game = Game::find($game_id);
-        return $game->ready_games()->get();
-    }
-
-    /**
-     * @param  Request  $request
-     * @return Response
-     */
     public function move(Request $request) {
         if (Auth::check()) {
             $game_id = $request->input('gameId');
@@ -164,7 +147,7 @@ class GameController extends Controller {
                     return response('Reiteration', 200);
                 }
             } else {
-                return response(400);
+                return response('Someone else is turn.', 200);
             }
         } else {
             return response('You must login', 401);
@@ -190,21 +173,32 @@ class GameController extends Controller {
     public static function end_the_game($game_id, $player) {
         $game = Game::find($game_id);
         if ($player === 'player1') {
-            $winner = $game->user1_id;
-            $loser = $game->user2_id;
+            $winner = User::find($game->user1_id);
+            $loser = User::find($game->user2_id);
         }
         if ($player === 'player2') {
-            $winner = $game->user2_id;
-            $loser = $game->user1_id;
+            $winner = User::find($game->user2_id);
+            $loser = User::find($game->user1_id);
         }
-        $winner->statistics()->wins += 1;
+        $winner_statistics = $winner->statistics()->first();
+        $winner_statistics->wins += 1;
         $winner->game_id = NULL;
-        $loser->statistics()->defeats += 1;
+        $loser_statistics = $loser->statistics()->first();
+        $loser_statistics->defeats += 1;
+        $loser->statistics()->first()->defeats += 1;
         $loser->game_id = NULL;
         $winner->save();
         $loser->save();
+        $winner_statistics->save();
+        $loser_statistics->save();
         $game->ready_games()->delete();
         $game->delete();
+    }
+
+    public function get_field() {
+        $game_id = Auth::user()->game_id;
+        $game = Game::find($game_id);
+        return response($game->ready_games()->get(), 200);
     }
 
     public static function whose_turn($game_id) {

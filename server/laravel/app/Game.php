@@ -59,37 +59,12 @@ class Game extends Model {
                     $game->save();
                     $user->game_id = $game_id;
                     $user->save();
-                    $existed_game->delete();
                     return true;
                 } else {
                     return false;
                 }
             }
         }
-    }
-
-    public static function my_game_is_started($user) {
-        if ($user->game_id != NULL) {
-            $game = Game::find($user->game_id);
-            if ($game->user1_id != NULL && $game->user2_id != NULL) {
-                return $game;
-            } else {
-                return false;
-            }
-        }
-        return false;
-    }
-
-    public static function my_game_is_ready($user) {
-        if ($user->game_id != NULL) {
-            $game = Game::find($user->game_id);
-            if ($game->user1_ready && $game->user2_ready) {
-                return $game;
-            } else {
-                return false;
-            }
-        }
-        return false;
     }
     
     public static function confirm($username){

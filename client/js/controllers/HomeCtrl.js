@@ -48,9 +48,9 @@ var homeCtrl = angular.module('app.HomeCtrl', ['ngCookies'])
                 }
                 ;
                 function homeTimer() {
-                    var timerId = setInterval(function () {
+                    setInterval(function () {
                         loadGames();
-                    }, 2000);
+                    }, 3000);
                 }
                 ;
             }]);
