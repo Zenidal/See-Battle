@@ -1,4 +1,5 @@
-var seeBattleApp = angular.module('seeBattleApp', ['ngRoute', 'app.AuthorizCtrl', 'app.RegistrCtrl', 'app.LogoutCtrl', 'app.HomeCtrl']);
+var seeBattleApp = angular.module('seeBattleApp',
+        ['ngRoute', 'app.AuthorizCtrl', 'app.RegistrCtrl', 'app.LogoutCtrl', 'app.HomeCtrl', 'app.GameCtrl', 'app.ProfileCtrl']);
 
 seeBattleApp.config(['$routeProvider', '$provide', function ($routeProvider) {
         $routeProvider
@@ -18,7 +19,7 @@ seeBattleApp.config(['$routeProvider', '$provide', function ($routeProvider) {
                 .when('/Profile',
                         {
                             templateUrl: 'views/profileView.html',
-                            //controller: 'ProfileCtrl'
+                            controller: 'ProfileCtrl'
                         })
                 .when('/Statistics',
                         {
@@ -41,8 +42,21 @@ seeBattleApp.config(['$routeProvider', '$provide', function ($routeProvider) {
                             templateUrl: 'views/homeView.html',
                             controller: 'LogoutCtrl'
                         })
+                .when('/Game',
+                        {
+                            templateUrl: 'views/gameView.html',
+                            controller: 'GameCtrl'
+                        })
                 .otherwise(
                         {
                             redirectTo: '/'
                         });
     }]);
+seeBattleApp.run(function ($rootScope, $cookieStore) {
+    username = $cookieStore.get('username');
+    if (username !== undefined) {
+        $rootScope.authorized = true;
+    } else {
+        $rootScope.authorized = false;
+    }
+});

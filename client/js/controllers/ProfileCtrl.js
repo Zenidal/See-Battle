@@ -1,7 +1,5 @@
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-
+var profileCtrl = angular.module('app.ProfileCtrl', ['ngCookies'])
+        .controller('ProfileCtrl', ['$scope', '$http', '$cookieStore', '$rootScope', '$location',
+            function ($scope, $http, $cookieStore, $rootScope, $location) {
+                $scope.userName = $cookieStore.get('username');
+            }]);

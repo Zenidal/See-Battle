@@ -1,0 +1,38 @@
+<div class="container" ng-init="gameTimer()">
+    <div ng-show="gameWasStarted" class="startedGame">
+        <div class="gameFrame" ng-init="initField()">
+            <div class="selectors">
+                <div class="row">
+                    <div ng-click="ready()" class="btn readyButton col-md-2 col-xs-6">Ready</div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="description col-md-3 col-xs-6">Blue - my sheep.</div>
+                <div class="description col-md-3 col-xs-6">Gray - void.</div>
+                <div class="description col-md-3 col-xs-6">Red - hit.</div>
+                <div class="description col-md-3 col-xs-6">Violet - missed.</div>
+                <div class="turn col-md-12 col-xs-12" ng-show="gameIsReady"><h1>Turn: {{whoseTurn}}</h1></div>
+                <div class="turn col-md-12 col-xs-12" ng-show="!gameIsReady"><h1>Place your sheeps</h1></div>
+                <div id="myField" class="myField col-md-6 col-xs-12">
+                    <h2>{{game.user1_name}}</h2>
+                </div>
+                <div id="opponentField" class="col-md-6 col-xs-12 opponentField">
+                    <h2>{{game.user2_name}}</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div ng-show="!gameWasStarted">
+        <h1>No active games.</h1>
+    </div>
+    <div class="modal fade winGame-modal" tabindex="-1" role="dialog" aria-labelledby="winGameModal" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h2 class="modal-title">You win. Congratulations.</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

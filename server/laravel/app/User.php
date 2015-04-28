@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Role;
+use App\Statistics;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Auth;
 
@@ -11,21 +12,29 @@ class User extends Model implements Authenticatable {
 
     protected $fillable = ['username', 'password', 'role_id'];
 
+    public function statistics(){
+        return $this->hasOne('App\Statistics');
+    }
+    
     public function role() {
         return $this->belongsTo('App\Role');
     }
 
     public static function create_user($username, $password) {
+        $statistics = new Statistics();
         $role_id = Role::where('name', '=', 'user')->first()->id;
-        return User::create([
+        $user = User::create([
                     'username' => $username,
                     'password' => $password,
                     'role_id' => $role_id
         ]);
+        $statistics->user_id = $user->id;
+        $statistics->save();
+        return $user;
     }
 
     public static function authorize($data) {
-        if(Auth::viaRemember()){
+        if (Auth::viaRemember()) {
             return 'The user is already logged in.';
         }
         $credentials = array('username' => $data['username'], 'password' => $data['password']);

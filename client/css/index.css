@@ -11,7 +11,32 @@ body
     background-size: 100%; /* Современные браузеры */
     color: white;
 }
-.authorization-modal, .errorModal, .registration-modal
+.authorization-modal, .errorModal, .registration-modal, .createGame-modal, .acceptGame-modal,
+.readyGame-modal
 {    
     color: black;
+}
+.selectors
+{
+    background-color: #222222;
+    text-align: center;
+    border: 1px solid;
+    border-radius: 5px;
+    width: 100%;
+    margin-bottom: 20px;
+}
+.game
+{
+    background-color: gray;
+    color: black;
+    border: 1px solid;
+    border-radius: 5px;
+}
+.games-container
+{
+    background-color: rgba(0,0,0,0);
+}
+.description, .turn
+{
+    text-align: center;
 }

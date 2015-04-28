@@ -1,3 +1,52 @@
-<div class="container home">
-    <h1>{{username}}</h1>
+<div class="container home" ng-init="homeTimer()">
+    <div ng-show="authorized" class="selectors">
+        <div class="row">
+            <div ng-click="createGame()" class="btn col-md-2 col-xs-6">Create game</div>
+        </div>
+    </div>
+    <div class="jumbotron games-container">
+        <div class="games">
+            <div class="row">
+                <div show="game.user2id!=0" ng-click="acceptGame(game.id)" ng-repeat="game in games track by game.id" class="btn game col-md-6 col-xs-12">
+                    {{game.user1_name}} {{game.user2_name}}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade createGame-modal" tabindex="-1" role="dialog" aria-labelledby="creationResultModal" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h2 class="modal-title">Creation result</h2>
+                </div>
+                <div class="modal-body">
+                    {{data}}                    
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade acceptGame-modal" tabindex="-1" role="dialog" aria-labelledby="acceptionResultModal" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h2 class="modal-title">Acception result</h2>
+                </div>
+                <div class="modal-body">
+                    {{data}}                    
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade readyGame-modal" tabindex="-1" role="dialog" aria-labelledby="readyGameModal" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h2 class="modal-title">Your game is ready</h2>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

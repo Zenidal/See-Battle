@@ -6,10 +6,10 @@ var logoutCtrl = angular.module('app.LogoutCtrl', ['ngCookies'])
                     url: 'http://seebattle/See-Battle/server/laravel/public/logout'})
                         .success(function (data)
                         {
-
                             $rootScope.authorized = false;
                             $cookieStore.remove('username');
                             $cookieStore.remove('token');
+                            $location.path('/Home');
                         })
                         .error(function (data)
                         {
